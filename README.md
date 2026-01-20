@@ -1,2 +1,1 @@
-# analisedados_emR
-Análise de dados do SUS usando R
+# Análise de dados do SUS usando linguagem R
