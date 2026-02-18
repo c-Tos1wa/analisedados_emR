@@ -1,1 +1,1 @@
-# Análise de dados do SUS usando linguagem R
+# Análise de dados usando linguagem R
