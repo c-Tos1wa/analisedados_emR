@@ -68,6 +68,7 @@ incidence
 
 ###############################################################################
 
+#gradiente de cor para variáveis contínuas
 consumo <- mtcars %>% 
   rownames_to_column("modelo") %>% 
   mutate(montadora = word(modelo, 1)) %>% 
@@ -93,3 +94,69 @@ ggplot(
     y = "milhas por galão (média)"
   ) +
   theme_minimal()
+#######################################################################
+
+ds <- tibble(
+  set = c("a", "b", "c", "d"),
+  n = c(5, 15, 60, 20))
+
+# evitar, mas se for necessário usar, colocar as porcentagens 
+graph <- ds %>% 
+  ggplot(aes(x = "", y = n, fill = set)) +
+  geom_col(width = 1) +
+  coord_polar("y") +
+  geom_text(
+    aes(label = paste0(n, "%")),
+    position = position_stack(vjust = 0.5),
+    color = "black",
+    size = 3) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Gráfico de pizza",
+    subtitle = "Sempre incluir porcentagens!") +
+  theme_void() +
+  theme(legend.position = "bottom")
+graph
+
+# melhor com gráfico de barras horizontais
+bar_chart <- ds %>% 
+  mutate(grupo = fct_reorder(set, n)) %>% 
+  ggplot(aes(grupo, n, fill = grupo)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  geom_text(
+    aes(label = paste0(n, "%")),
+    hjust = -0.1,
+    vjust = 0.15,
+    size = 3.5) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = " Alternativa ao grafico de pizza",
+    x = "",
+    y = "porcentagem em %") +
+    theme_minimal() +
+    ylim(0, 70)
+bar_chart  
+
+#########################################################################
+
+# gráfico de linha (time series)
+set.seed(42)
+influenza <- tibble(
+  week = 1:52,
+  year = 2023,
+  cases = round(50 + 30*sin((week - 10)*2*pi / 52) + rnorm(52, 0 ,10))
+) %>% 
+  mutate(cases = pmax(cases, 5)) #modifica para q os valores de casos seja maior ou igual a 5
+
+ggplot(influenza, aes(week, cases)) +
+  geom_line(colour = "steelblue", linewidth = 1) +
+  geom_point(colour = "blue", size = 1.5) +
+  labs(
+    title = "Casos de influenza por semana no ano de 2023",
+    x = "semana epidemiológica",
+    y = "número de casos"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 52, by = 4)) +
+  scale_y_continuous(limits = c(0, NA))
