@@ -1,5 +1,7 @@
 
 library(tibble)
+library(ggplot2)
+
 recem_nascidos <- tibble(
   individuo = 1:20,
   peso_g = c(3265, 3260, 3245, 3484, 4146, 3323, 3649, 3200, 3031, 2069,
@@ -174,3 +176,42 @@ histograma <- recem_nascidos %>%
   ) + 
   theme_minimal(accent = "darkgrey")
 histograma
+
+
+# histograma completo
+ggplot(recem_nascidos, aes(x = peso_g)) +
+  geom_histogram(
+    bins = 8,
+    fill = "steelblue",
+    color = "gray100",
+    alpha = 0.8
+  ) +
+  geom_vline(
+    aes(xintercept = mean(peso_g)),
+    color = "red",
+    linetype = "dashed",
+    linewidth = 0.8
+  ) +
+  annotate(
+    "text",
+    x = mean(recem_nascidos$peso_g) + 10,
+    y = 4.5,
+    label = paste0("Média: ", round(mean(recem_nascidos$peso_g), 1), " g"),
+    hjust = 0,
+    color = "black",
+    size = 3.5
+  ) +
+  labs(
+    title = "Distribuição do peso de bebês ao nascer",
+    subtitle = "Amostra de 20 recém-nascidos de uma maternidade de SP",
+    x = "peso ao nascer (g)",
+    y = "frequência (n)",
+    caption = "Fonte: dados simulados para fins didáticos"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    plot.caption = element_text(size = 8, color = "gray60")
+  )
+  
