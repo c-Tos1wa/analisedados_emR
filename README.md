@@ -11,3 +11,6 @@ Este repositório é dedicado às atividades relacionadas ao curso **Introduçã
 
 ## Autor(a/es)
 Cristina T. Iwassaki
+
+### Licença
+Este repositório está sob a [license](license) MIT.
